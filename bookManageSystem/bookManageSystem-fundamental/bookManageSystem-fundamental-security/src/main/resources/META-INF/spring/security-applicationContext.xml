@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="userService" class="org.bookManageSystem.fundamental.security.service.UserService" depends-on="mappers"/>
+    <bean id="userAuthorityService" class="org.bookManageSystem.fundamental.security.service.UserAuthorityService" depends-on="mappers"/>
+    <bean id="authorityPowerService" class="org.bookManageSystem.fundamental.security.service.AuthorityPowerService" depends-on="mappers"/>
+    <bean id="powerService" class="org.bookManageSystem.fundamental.security.service.PowerService" depends-on="mappers"/>
+    <bean id="authorityService" class="org.bookManageSystem.fundamental.security.service.AuthorityService" depends-on="mappers"/>
+    <bean id="appService" class="org.bookManageSystem.fundamental.security.service.AppService" depends-on="mappers"/>
+</beans>

@@ -1,0 +1,219 @@
+<style type="text/css">
+    .table-b table{border:1px solid #a1deff;}
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.post($.URL.bookAnalyse.getReaderBookList,null,readerBookList,"json");
+    });
+
+    function readerBookList(data) {
+        for(var item in data.data) {
+            var curCount = parseInt(item) + 1;
+            console.log(curCount);
+            $("#" + "bookName" + curCount + "").html(data.data[item].name);
+            $("#" + "bookNumber" + curCount + "").html(data.data[item].number);
+        }
+    }
+
+    $("#bookInfoDialog1").click(
+            function(){
+                var bookNum = $("#bookNumber1").text();
+                $.post($.URL.book.findImageAndDescription,{"number":bookNum},bookInfoDialog1Callback,"json");
+
+                function bookInfoDialog1Callback(data) {
+                    console.log(data.data.image);
+                    $("#dialogImage").attr("src",data.data.image);
+                    $("#dialogDescription").html(data.data.description);
+                    $("#dialogAuthor").html(data.data.author);
+                    $("#dialogPress").html(data.data.pressName);
+                    $("#dialogLocation").html(data.data.pressLocation);
+                    $("#dialogCIP").html(data.data.cip);
+                    $("#dialogISBN").html(data.data.isbn);
+                    $.ligerDialog.open({
+                        target:$("#showInfo"),
+                        title:'详细信息',
+                        width: 800,
+                        top:100,
+                        showMax: false,
+                        showToggle: true,
+                        showMin: false,
+                        isResize: true,
+                        slide: false
+                    });
+                }
+            }
+    );
+
+    $("#bookInfoDialog2").click(
+            function(){
+                var bookNum = $("#bookNumber2").text();
+                $.post($.URL.book.findImageAndDescription,{"number":bookNum},bookInfoDialog2Callback,"json");
+
+                function bookInfoDialog2Callback(data) {
+                    console.log(data.data.image);
+                    $("#dialogImage").attr("src",data.data.image);
+                    $("#dialogDescription").html(data.data.description);
+                    $("#dialogAuthor").html(data.data.author);
+                    $("#dialogPress").html(data.data.pressName);
+                    $("#dialogLocation").html(data.data.pressLocation);
+                    $("#dialogCIP").html(data.data.cip);
+                    $("#dialogISBN").html(data.data.isbn);
+                    $.ligerDialog.open({
+                        target:$("#showInfo"),
+                        title:'详细信息',
+                        width: 800,
+                        top:100,
+                        showMax: false,
+                        showToggle: true,
+                        showMin: false,
+                        isResize: true,
+                        slide: false
+                    });
+                }
+            }
+    );
+
+    $("#bookInfoDialog3").click(
+            function(){
+                var bookNum = $("#bookNumber3").text();
+                $.post($.URL.book.findImageAndDescription,{"number":bookNum},bookInfoDialog3Callback,"json");
+
+                function bookInfoDialog3Callback(data) {
+                    console.log(data.data.image);
+                    $("#dialogImage").attr("src",data.data.image);
+                    $("#dialogDescription").html(data.data.description);
+                    $("#dialogAuthor").html(data.data.author);
+                    $("#dialogPress").html(data.data.pressName);
+                    $("#dialogLocation").html(data.data.pressLocation);
+                    $("#dialogCIP").html(data.data.cip);
+                    $("#dialogISBN").html(data.data.isbn);
+                    $.ligerDialog.open({
+                        target:$("#showInfo"),
+                        title:'详细信息',
+                        width: 800,
+                        top:100,
+                        showMax: false,
+                        showToggle: true,
+                        showMin: false,
+                        isResize: true,
+                        slide: false
+                    });
+                }
+            }
+    );
+
+    $("#bookInfoDialog4").click(
+            function(){
+                var bookNum = $("#bookNumber4").text();
+                $.post($.URL.book.findImageAndDescription,{"number":bookNum},bookInfoDialog4Callback,"json");
+
+                function bookInfoDialog4Callback(data) {
+                    console.log(data.data.image);
+                    $("#dialogImage").attr("src",data.data.image);
+                    $("#dialogDescription").html(data.data.description);
+                    $("#dialogAuthor").html(data.data.author);
+                    $("#dialogPress").html(data.data.pressName);
+                    $("#dialogLocation").html(data.data.pressLocation);
+                    $("#dialogCIP").html(data.data.cip);
+                    $("#dialogISBN").html(data.data.isbn);
+                    $.ligerDialog.open({
+                        target:$("#showInfo"),
+                        title:'详细信息',
+                        width: 800,
+                        top:100,
+                        showMax: false,
+                        showToggle: true,
+                        showMin: false,
+                        isResize: true,
+                        slide: false
+                    });
+                }
+            }
+    );
+
+    $("#bookInfoDialog5").click(
+            function(){
+                var bookNum = $("#bookNumber5").text();
+                $.post($.URL.book.findImageAndDescription,{"number":bookNum},bookInfoDialog5Callback,"json");
+
+                function bookInfoDialog5Callback(data) {
+                    console.log(data.data.image);
+                    $("#dialogImage").attr("src",data.data.image);
+                    $("#dialogDescription").html(data.data.description);
+                    $("#dialogAuthor").html(data.data.author);
+                    $("#dialogPress").html(data.data.pressName);
+                    $("#dialogLocation").html(data.data.pressLocation);
+                    $("#dialogCIP").html(data.data.cip);
+                    $("#dialogISBN").html(data.data.isbn);
+                    $.ligerDialog.open({
+                        target:$("#showInfo"),
+                        title:'详细信息',
+                        width: 800,
+                        top:100,
+                        showMax: false,
+                        showToggle: true,
+                        showMin: false,
+                        isResize: true,
+                        slide: false
+                    });
+                }
+            }
+    );
+
+</script>
+<div class="table-b" style="height: 100%;">
+    <table style="height: 100%;width: 100%;">
+        <tr style="height: 20%;text-align: center;">
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">序号</td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">书名</td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">编号</td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">更多</td>
+        </tr>
+        <tr style="height: 16%;text-align: center;">
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">1</td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="bookName1"></div></td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="bookNumber1"></div></td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle;cursor: pointer"><div id="bookInfoDialog1">详细信息</div></td>
+        </tr>
+        <tr style="height: 16%;text-align: center;">
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">2</td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="bookName2"></div></td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="bookNumber2"></div></td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle;cursor: pointer"><div id="bookInfoDialog2">详细信息</div></td>
+        </tr>
+        <tr style="height: 16%;text-align: center;">
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">3</td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="bookName3"></div></td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="bookNumber3"></div></td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle;cursor: pointer"><div id="bookInfoDialog3">详细信息</div></td>
+        </tr>
+        <tr style="height: 16%;text-align: center;">
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">4</td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="bookName4"></div></td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="bookNumber4"></div></td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle;cursor: pointer"><div id="bookInfoDialog4">详细信息</div></td>
+        </tr>
+        <tr style="height: 16%;text-align: center;">
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">5</td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="bookName5"></div></td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="bookNumber5"></div></td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle;cursor: pointer"><div id="bookInfoDialog5">详细信息</div></td>
+        </tr>
+    </table>
+</div>
+<div style="display: none">
+    <div id="showInfo" style="display:block">
+        <div style="left: 0;top: 0">
+            <img id="dialogImage" src="" title="图片信息" style="left: 0;top: 0"/>
+        </div>
+        <div style="left: 45%;top: 13%;right:3%;position: absolute">
+            作者：<div id="dialogAuthor" style="left: 45%;top: 0;"></div>
+            出版社：<div id="dialogPress" style="left: 45%;margin-top: 5px;"></div>
+            出版地：<div id="dialogLocation" style="left: 45%;margin-top: 5px"></div>
+            图书在版编目（CIP）：<div id="dialogCIP" style="left: 45%;margin-top: 5px"></div>
+            国际标准书号（ISBN）：<div id="dialogISBN" style="left: 45%;margin-top: 5px;"></div>
+            书籍描述：<div id="dialogDescription" style="left: 45%;margin-top: 5px;"></div>
+        </div>
+    </div>
+</div>

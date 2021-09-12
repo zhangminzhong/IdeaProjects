@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+        <bean id="optionTypeService" class="org.bookManageSystem.business.book.service.OptionTypeService" depends-on="mappers"/>
+        <bean id="prefixService" class="org.bookManageSystem.business.book.service.PrefixService" depends-on="mappers"/>
+        <bean id="bookService" class="org.bookManageSystem.business.book.service.BookService" depends-on="mappers"/>
+        <bean id="bookTypeService" class="org.bookManageSystem.business.book.service.BookTypeService" depends-on="mappers"/>
+</beans>

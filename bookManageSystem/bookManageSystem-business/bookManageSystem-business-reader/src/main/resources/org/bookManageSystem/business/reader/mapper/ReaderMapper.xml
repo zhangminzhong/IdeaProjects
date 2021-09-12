@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bookManageSystem.business.reader.mapper.ReaderMapper">
+    <sql id="reader_fields">
+          ID,USERID,NAME,NUMBER,SEX,CREATETIME,APPID
+    </sql>
+    <resultMap id="readerResultMap" type="Reader">
+        <id property="id" column="ID" />
+        <result property="userId" column="USERID" />
+        <result property="name" column="NAME"/>
+        <result property="number" column="NUMBER"/>
+        <result property="sex" column="SEX"/>
+        <result property="createTime" column="CREATETIME"/>
+        <result property="appId" column="APPID"/>
+    </resultMap>
+
+    <insert id="add" parameterType="Reader"  keyProperty="id"
+            useGeneratedKeys="true">
+        INSERT INTO
+        reader(
+        <include refid="reader_fields" />
+        )
+        VALUES (#{id},#{userId},#{name},#{number},#{sex},
+        #{createTime},#{appId});
+        <selectKey resultType="long" keyProperty="id">
+            select
+            LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="Reader">
+        update reader
+        <set>
+            <if test="userId!=null"> USERID=#{userId},</if>
+            <if test="name!=null"> NAME=#{name},</if>
+            <if test="number!=null"> NUMBER=#{number},</if>
+            <if test="sex!=null"> SEX=#{sex},</if>
+            <if test="appId!=null">APPID=#{appId},</if>
+        </set>
+        where ID=#{id};
+    </update>
+
+    <delete id="delete" parameterType="Reader">
+        DELETE FROM reader
+        <where>
+            <if test="number != null">NUMBER=#{number}</if>
+            <if test="name != null">and NAME=#{name}</if>
+        </where>
+    </delete>
+
+
+    <select id="getReaderById" parameterType="map" resultMap="readerResultMap">
+        SELECT
+        <include refid="reader_fields" />
+        FROM reader WHERE ID=#{id} AND APPID=#{appId}
+    </select>
+
+    <delete id="deleteById" parameterType="map">
+        DELETE FROM reader
+        WHERE ID=#{id} AND APPID=#{appId}
+    </delete>
+
+    <select id="getIdByNumber"  parameterType="map" resultType="java.lang.Long">
+        select   id
+        from   reader
+        where number=#{number}
+        and  appId=#{appId}
+    </select>
+
+    <select id="findByCondition" parameterType="Reader" resultMap="readerResultMap">
+        select
+        <include refid="reader_fields"/>
+        from reader
+        <where>
+            <if test="name!=null">NAME=#{name}</if>
+            <if test="number!=null">and  NUMBER=#{number}</if>
+            <if test="appId!=null">and APPID=#{appId}</if>
+        </where>
+    </select>
+
+    <select id="getNameById" parameterType="java.lang.Long" resultType="java.lang.String">
+        select name
+        from reader
+        where ID=#{id}
+    </select>
+
+    <select id="getListByAppId" parameterType="java.lang.Long" resultMap="readerResultMap">
+        select
+        <include refid="reader_fields"/>
+        from reader
+        where APPID=#{appId}
+    </select>
+
+    <select id="getReaderByUserId" parameterType="map" resultType="map">
+        select
+        r.name as name,r.number as number,r.sex as sex,a.name as appName
+        from reader as r,app as a
+        where r.appId=a.id and r.userId=#{userId} and a.id=#{appId}
+    </select>
+</mapper>

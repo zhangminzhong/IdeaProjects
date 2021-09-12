@@ -1,0 +1,191 @@
+<style type="text/css">
+    #bookTab1 {
+        position:absolute;
+        top:28%;
+        left:0;
+        width:20%;
+        /*height:100%;*/
+        background-color:#d3e4ff;
+        margin-top: 16px;
+        margin-left: 3px;
+    }
+    #bookTab2 {
+        position:absolute;
+        top:28%;
+        left:20%;
+        width:20%;
+        /*height:100%;*/
+        background-color: #d3e4ff;
+        margin-top: 16px;
+        margin-left: 3px;
+    }
+    #bookTab3 {
+        position:absolute;
+        top:28%;
+        left:40%;
+        width:20%;
+        /*height:100%;*/
+        background-color: #d3e4ff;
+        margin-top: 16px;
+        margin-left: 3px;
+    }
+    #bookTab4 {
+        position:absolute;
+        top:28%;
+        left:60%;
+        width:20%;
+        /*height:100%;*/
+        background-color: #d3e4ff;
+        margin-top: 16px;
+        margin-left: 3px;
+    }
+    #bookTab5 {
+        position:absolute;
+        top:28%;
+        left:80%;
+        width:20%;
+        /*height:100%;*/
+        background-color: #d3e4ff;
+        margin-top: 16px;
+        margin-left: 3px;
+    }
+    #typeTitle {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 15%;
+        right: 0;
+        margin-top: 6px;
+        font-size: 20px;
+        background-color: #9791ff;
+        border: 1px solid #9791ff;
+    }
+    #typeDiv {
+        position: absolute;
+        top: 15%;
+        left: 0;
+        width: 100%;
+        height: 15%;
+        background-color: #9791ff;
+    }
+    #type1 {
+        position:absolute;
+        top:0;
+        left:0;
+        width:20%;
+        height:100%;
+        border: 1px solid #9791ff;
+        background-color: #d3e4ff;
+    }
+    #type2 {
+        position:absolute;
+        top:0;
+        left:20%;
+        width:20%;
+        height:100%;
+        border: 1px solid #9791ff;
+        background-color: #d3e4ff;
+    }
+    #type3 {
+        position:absolute;
+        top:0;
+        left:40%;
+        width:20%;
+        height:100%;
+        border: 1px solid #9791ff;
+        background-color: #d3e4ff;
+    }
+    #type4 {
+        position:absolute;
+        top:0;
+        left:60%;
+        width:20%;
+        height:100%;
+        border: 1px solid #9791ff;
+        background-color: #d3e4ff;
+    }
+    #type5 {
+        position:absolute;
+        top:0;
+        left:80%;
+        width:20%;
+        height:100%;
+        border: 1px solid #9791ff;
+        background-color: #d3e4ff;
+    }
+</style>
+<script type="text/javascript">
+    var curDataTypeId = new Array(),curDataTypeName = new Array();
+    $(document).ready(function(){
+        $.post($.URL.anonymous.bestBookType,null,bestBookTypesCallback,"json");
+    });
+
+    function bestBookTypesCallback(data) {
+        for(var item in data.data) {
+            curDataTypeId[item] = data.data[item].bookTypeId;
+            curDataTypeName[item] = data.data[item].bookTypeName;
+            var divSelector = "type" + (parseInt(item)+1).toString();
+//            console.log(divSelector);
+            $("#" + divSelector + "").html(curDataTypeName[item]);
+        }
+//        console.log(curDataTypeId,curDataTypeName);
+        f_init();
+    }
+
+    function f_init() {
+        var t = 0;
+        for(t=0;t<curDataTypeId.length;t++) {
+//            $.post($.URL.anonymous.commends,{"bookTypeId":curDataTypeId[t]},commendsCallback,"json");
+            $.ajax({
+            url: $.URL.anonymous.commends,
+                async:false,
+                data:{"bookTypeId":curDataTypeId[t]},
+                type:"POST",
+                dataType:"json",
+                success:commendsCallback
+            })
+        }
+    }
+    var gridBookList = new Array();
+    var k = 0;
+    function commendsCallback(data){
+//        console.log(data.data);
+//        console.log(JSON.stringify(data.data));
+//        var gridBookData = JSON.stringify(data.data);
+        var gridBookData = data.data;
+        var gridData = {};
+        gridData.Rows = gridBookData;
+        gridData.Total = gridBookData.length;
+        var divSelector2 = "bookTab" + (parseInt(k)+1).toString();
+        gridBookList[k] = gridData;
+        k++;
+        console.log(divSelector2,k);
+        $("#" + divSelector2 + "").ligerGrid({
+            columns:[
+                { display: '编号', name: 'number', frozen: true,width:'auto' },
+                { display:'书名',name:'name',width:'auto'}
+            ],
+            enabledEdit: true,clickToEdit:false, isScroll: false,usePager:false,
+            data:gridData,
+            width:'19%'
+        });
+    }
+
+</script>
+    <div id="typeTitle">
+        <!--<img src="" style="background-color: #000000">-->
+        |分类推荐书籍|
+    </div>
+<div id="typeDiv">
+    <div id="type1" style="font-size: 20px;text-align:center;color: blue"></div>
+    <div id="type2" style="font-size: 20px;text-align:center;color: blue"></div>
+    <div id="type3" style="font-size: 20px;text-align:center;color: blue"></div>
+    <div id="type4" style="font-size: 20px;text-align:center;color: blue"></div>
+    <div id="type5" style="font-size: 20px;text-align:center;color: blue"></div>
+</div>
+<div id="bookTab1"></div>
+<div id="bookTab2"></div>
+<div id="bookTab3"></div>
+<div id="bookTab4"></div>
+<div id="bookTab5"></div>

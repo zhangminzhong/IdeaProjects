@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bookManageSystem.business.bookAnalyse.mapper.BookAnalyseMapper">
+    <resultMap id="subBookResultMap" type="SubBook">
+        <id property="id" column="ID" />
+        <result property="name" column="NAME" />
+        <result property="number" column="NUMBER" />
+        <result property="rentNum" column="RENTNUM"/>
+        <result property="totalNum" column="TOTALNUM"/>
+        <result property="bookTypeId" column="BOOKTYPEID"/>
+        <result property="appId" column="APPID"/>
+    </resultMap>
+    <select id="getSubBookList" parameterType="java.lang.Long" resultMap="subBookResultMap">
+      SELECT b.id as id,b.name as name,b.number as number,b.rentNumber as rentNum,b.count as totalNum,b.bookTypeId as bookTypeId,b.appId as appId
+      FROM book as b
+      WHERE b.appId=#{appId}
+    </select>
+
+    <select id="getReaderBookByAppId" parameterType="java.lang.Long" resultType="map">
+        select r.readerId as readerId,r.bookSet as bookSet
+        from readerrecord as r
+        where appId=#{appId}
+    </select>
+
+    <select id="getReaderBookByUserId" parameterType="map" resultType="map">
+      SELECT b.number as number,b.name as name,b.id as id
+      FROM book as b,bookrecord as br,reader as r,user as u
+      WHERE b.appId=#{appId} and b.id=br.bookId and br.userId=#{userId} and r.userId=u.id and br.optionTypeId=1
+      GROUP BY b.number
+    </select>
+
+    <select id="getBookById" parameterType="map" resultType="map">
+      SELECT b.number as number,b.name as name,b.id as id
+      FROM book as b
+      WHERE b.appId=#{appId} and b.id=#{id}
+    </select>
+
+    <select id="getBookByNumber" parameterType="map" resultType="map">
+      SELECT b.number as number,b.name as name,b.id as id
+      FROM book as b
+      WHERE b.appId=#{appId} and b.number=#{number}
+    </select>
+
+    <select id="getNumberById" parameterType="map" resultType="java.lang.String">
+      SELECT number
+      FROM book
+      WHERE appId=#{appId} and id=#{id}
+    </select>
+</mapper>

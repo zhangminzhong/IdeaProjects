@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bookManageSystem.business.reader.mapper.ReaderRecordMapper">
+    <sql id="readerRecord_fields">
+          ID,READERID,BOOKSET,OPTIONTYPEID,CREATETIME,CURBOOKSET,APPID
+    </sql>
+    <resultMap id="readerRecordResultMap" type="ReaderRecord">
+        <id property="id" column="ID" />
+        <result property="readerId" column="READERID" />
+        <result property="bookSet" column="BOOKSET"/>
+        <result property="optionTypeId" column="OPTIONTYPEID"/>
+        <result property="createTime" column="CREATETIME"/>
+        <result property="curBookSet" column="CURBOOKSET"/>
+        <result property="appId" column="APPID"/>
+    </resultMap>
+
+    <insert id="add" parameterType="ReaderRecord"  keyProperty="id"
+            useGeneratedKeys="true">
+        INSERT INTO
+        readerRecord(
+        <include refid="readerRecord_fields" />
+        )
+        VALUES (#{id},#{readerId},#{bookSet},#{optionTypeId},
+        #{createTime},#{curBookSet},#{appId});
+        <selectKey resultType="long" keyProperty="id">
+            select
+            LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="ReaderRecord">
+        update readerRecord
+        <set>
+            <if test="readerId!=null"> READERID=#{readerId},</if>
+            <if test="bookSet!=null"> BOOKSET=#{bookSet},</if>
+            <if test="optionTypeId!=null"> OPTIONTYPEID=#{optionTypeId},</if>
+            <if test="createTime!=null"> CREATETIME=#{createTime},</if>
+            <if test="curBookSet!=nill">CURBOOKSET=#{curBookSet}</if>
+            <if test="appId!=null">APPID=#{appId},</if>
+        </set>
+        where ID=#{id};
+    </update>
+
+    <delete id="delete" parameterType="ReaderRecord">
+        DELETE FROM readerRecord
+        <where>
+            <if test="readerId != null">READERID=#{readerId}</if>
+        </where>
+    </delete>
+
+
+    <select id="getReaderRecordById" parameterType="map" resultMap="readerRecordResultMap">
+        SELECT
+        <include refid="readerRecord_fields" />
+        FROM readerRecord WHERE ID=#{id} AND APPID=#{appId}
+    </select>
+
+    <delete id="deleteById" parameterType="map">
+        DELETE FROM readerRecord
+        WHERE ID=#{id} AND APPID=#{appId}
+    </delete>
+
+    <!--<select id="getIdByNumber"  parameterType="map" resultType="java.lang.Long">-->
+        <!--select   id-->
+        <!--from   readerRecord-->
+        <!--where number=#{number}-->
+        <!--and  appId=#{appId}-->
+    <!--</select>-->
+
+    <!--<select id="findByCondition" parameterType="ReaderRecord" resultMap="readerRecordResultMap">-->
+        <!--select-->
+        <!--<include refid="readerRecord_fields"/>-->
+        <!--from readerRecord-->
+        <!--<where>-->
+            <!--<if test="name!=null">NAME=#{name}</if>-->
+            <!--<if test="number!=null">and  NUMBER=#{number}</if>-->
+            <!--<if test="appId!=null">and APPID=#{appId}</if>-->
+        <!--</where>-->
+    <!--</select>-->
+
+    <select id="getBookSetById" parameterType="java.lang.Long" resultType="java.lang.String">
+        select bookSet
+        from readerRecord
+        where ID=#{id}
+    </select>
+    <select id="getCurBookSetByReaderId" parameterType="java.lang.Long" resultType="java.lang.String">
+        select curBookSet
+        from readerRecord
+        where READERID=#{readerId}
+        order by createTime desc limit 1
+    </select>
+
+    <select id="getListByAppId" parameterType="java.lang.Long" resultMap="readerRecordResultMap">
+        select
+        <include refid="readerRecord_fields"/>
+        from readerRecord
+        where APPID=#{appId}
+    </select>
+
+</mapper>

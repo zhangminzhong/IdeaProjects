@@ -1,0 +1,120 @@
+<style>
+    #top {
+        background-color: #FFFFFF;
+        position:absolute;
+        width:10%;
+        height:100%;
+        top: 0;
+        left: 0;
+        right: 5px;
+    }
+    #center {
+        position:absolute;
+        width:80%;
+        height:100%;
+        top: 0px;
+        left: 11%;
+    }
+
+    #center_top {
+        position:relative;
+        height:42%;
+        width:auto;
+        top:0px;
+    }
+    #center_top1 {
+        position:absolute;
+        height:100%;
+        width:80%;
+        top:0px;
+        left:0px;
+        /*background-color:#00FF00;*/
+    }
+    #center_top2 {
+        position:absolute;
+        height:100%;
+        width:20%;
+        top:0px;
+        left:80%;
+        background-color:#d3e4ff;
+        margin-left: 5px;
+        /*background-color: #3333CC;*/
+    }
+    #center_buttom {
+        position:relative;
+        height:58%;
+        width:auto;
+        top:auto;
+        /*background-color:#FF0066*/
+    }
+    #center_buttom1 {
+        position:absolute;
+        height:80%;
+        width:80%;
+        top:0px;
+        left:0px;
+        margin-top: 5px;
+        /*background-color: #CC6633;*/
+    }
+    #center_buttom2 {
+        position:absolute;
+        height:80%;
+        width:20%;
+        top:0px;
+        left:80%;
+        margin-top: 10px;
+        margin-left: 5px;
+        overflow: auto;
+        border: 1px solid #9791ff;
+    }
+    #center_buttom3 {
+        position:absolute;
+        height:auto;
+        width:100%;
+        top:80%;
+        left:0;
+        margin-top: 5px;
+        /*background-color: #ff8ae7;*/
+    }
+    #buttom {
+        background-color: #FFFFFF;
+        position: absolute;
+        top: 0;
+        left: 2px;
+        width: 10%;
+        height: 100%;
+        right: 0;
+        margin-left: 5px;
+    }
+</style>
+
+<script type="text/javascript">
+    var totalType = "";
+    var totalContent = "";
+    $(document).ready(function(){
+        $("#center_top1").load("dashboardUser/noivSlider.html");
+        $("#center_top2").load("dashboardUser/search.html");
+        $("#center_buttom1").load("dashboardUser/bookTab.html");
+        $("#center_buttom2").load("dashboardUser/info.html");
+    });
+</script>
+
+<body>
+<div id="top"></div>
+<div id="center">
+    <div id="center_top">
+        <div id="center_top1"></div>
+        <div id="center_top2"></div>
+    </div>
+    <div id="center_buttom">
+        <div id="center_buttom1"></div>
+        <div id="center_buttom2"></div>
+        <div id="center_buttom3">
+            <div style="position: absolute;margin-top: 20px;margin-left: 40%">
+                版权所有 © 2014-2015　软件工程第三小组
+            </div>
+        </div>
+    </div>
+</div>
+<div id="buttom"></div>
+</body>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bookManageSystem.business.book.mapper.PrefixMapper">
+    <sql id="prefix_fields">
+          ID,CIP,ISBN,AUTHOR,PRESSNAME,PRESSLOCATION,PRESSTIME,APPID
+    </sql>
+    <resultMap id="prefixResultMap" type="Prefix">
+        <id property="id" column="ID" />
+        <result property="cip" column="CIP" />
+        <result property="isbn" column="ISBN"/>
+        <result property="author" column="AUTHOR"/>
+        <result property="pressName" column="PRESSNAME"/>
+        <result property="pressLocation" column="PRESSLOCATION"/>
+        <result property="pressTime" column="PRESSTIME"/>
+        <result property="appId" column="APPID"/>
+    </resultMap>
+
+    <insert id="add" parameterType="Prefix"  keyProperty="id"
+            useGeneratedKeys="true">
+        INSERT INTO
+        prefix(
+        <include refid="prefix_fields" />
+        )
+        VALUES (#{id},#{cip},#{isbn},#{author},#{pressName},#{pressLocation},
+        #{pressTime},#{appId});
+        <selectKey resultType="long" keyProperty="id">
+            select
+            LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="Prefix">
+        update prefix
+        <set>
+            <if test="cip!=null"> CIP=#{cip},</if>
+            <if test="isbn!=null"> ISBN=#{isbn},</if>
+            <if test="author!=null"> AUTHOR=#{author},</if>
+            <if test="pressName!=null"> PRESSNAME=#{pressName},</if>
+            <if test="pressLocation!=null"> PRESSLOCATION=#{pressLocation},</if>
+            <if test="pressTime!=null"> PRESSTIME=#{pressTime},</if>
+            <if test="appId!=null">APPID=#{appId},</if>
+        </set>
+        where ID=#{id};
+    </update>
+
+    <delete id="delete" parameterType="Prefix">
+        DELETE FROM prefix
+        <where>
+            <if test="cip!=null"> CIP=#{cip},</if>
+            <if test="isbn!=null"> ISBN=#{isbn},</if>
+            <if test="author!=null"> AUTHOR=#{author},</if>
+            <if test="pressName!=null"> PRESSNAME=#{pressName},</if>
+            <if test="pressLocation!=null"> PRESSLOCATION=#{pressLocation},</if>
+            <if test="pressTime!=null"> PRESSTIME=#{pressTime},</if>
+            <if test="appId!=null">APPID=#{appId},</if>
+        </where>
+    </delete>
+
+
+    <select id="getPrefixById" parameterType="map" resultMap="prefixResultMap">
+        SELECT
+        <include refid="prefix_fields" />
+        FROM prefix WHERE ID=#{id} AND APPID=#{appId}
+    </select>
+
+    <delete id="deleteById" parameterType="map">
+        DELETE FROM prefix
+        WHERE ID=#{id} AND APPID=#{appId}
+    </delete>
+
+    <!--<select id="getIdByNumber"  parameterType="map" resultType="java.lang.Long">-->
+    <!--select   id-->
+    <!--from   prefix-->
+    <!--where number=#{number}-->
+    <!--and  appId=#{appId}-->
+    <!--</select>-->
+
+    <!--<select id="findByCondition" parameterType="Prefix" resultMap="prefixResultMap">-->
+    <!--select-->
+    <!--<include refid="prefix_fields"/>-->
+    <!--from prefix-->
+    <!--<where>-->
+    <!--<if test="name!=null">NAME=#{name}</if>-->
+    <!--<if test="number!=null">and  NUMBER=#{number}</if>-->
+    <!--<if test="appId!=null">and APPID=#{appId}</if>-->
+    <!--</where>-->
+    <!--</select>-->
+
+    <!--<select id="getNameById" parameterType="java.lang.Long" resultType="java.lang.String">-->
+    <!--select name-->
+    <!--from prefix-->
+    <!--where ID=#{id}-->
+    <!--</select>-->
+
+    <select id="getListByAppId" parameterType="java.lang.Long" resultMap="prefixResultMap">
+        select
+        <include refid="prefix_fields"/>
+        from prefix
+        where APPID=#{appId}
+    </select>
+
+</mapper>

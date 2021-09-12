@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bookManageSystem.business.book.mapper.BookMapper">
+    <sql id="book_fields">
+         id,name,prefixId,number,rentNumber,bookTypeId,count,appId
+     </sql>
+    <resultMap id="bookResultMap" type="book">
+        <id property="id" column="ID"/>
+        <result property="name" column="NAME"/>
+        <result property="prefixId" column="PREFIXID"/>
+        <result property="number" column="NUMBER"/>
+        <result property="rentNumber" column="RENTNUMBER"/>
+        <result property="bookTypeId" column="BOOKTYPEID"/>
+        <result property="count" column="COUNT"/>
+        <result property="appId" column="APPID"/>
+    </resultMap>
+
+    <insert id="add" parameterType="book"  keyProperty="id"
+            useGeneratedKeys="true">
+        INSERT INTO
+        book(
+        <include refid="book_fields" />
+        )
+        VALUES (#{id}, #{name},#{prefixId},#{number},#{bookTypeId},#{rentNumber},#{count},#{appId});
+        <selectKey resultType="long" keyProperty="id">
+            select
+            LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="book">
+        UPDATE book
+        <set>
+            <if test="name!=null">NAME=#{name},</if>
+            <if test="number!=null">NUMBER=#{number},</if>
+            <if test="prefixId!=null">PREFIXID=#{prefixId},</if>
+            <if test="rentNumber!=null">RENTNUMBER=#{rentNumber},</if>
+            <if test="bookTypeId!=null">BOOKTYPEID=#{bookTypeId},</if>
+            <if test="count!=null">COUNT=#{count},</if>
+            <if test="appId!=null">APPID=#{appId}</if>
+        </set>
+        WHERE ID=#{id}
+    </update>
+
+    <delete id="delete" parameterType="book">
+        DELETE FROM book
+        WHERE ID=#{id}
+    </delete>
+
+    <select id="getListByAppId" parameterType="java.lang.Long" resultType="map">
+        select book.id,book.name,book.number,book.rentNumber,book.count,booktype.name as bookType,prefix.isbn
+        from book
+        LEFT JOIN booktype ON book.bookTypeId=booktype.id
+        LEFT JOIN prefix ON book.prefixId=prefix.id
+        where book.appId=#{appId}
+    </select>
+
+    <select id="getIdByName" parameterType="map" resultType="java.lang.Long">
+        select id
+        from book
+        where NAME=#{name} and APPID=#{appId}
+    </select>
+
+    <select id="getIdByNumber" parameterType="map" resultType="java.lang.Long">
+        select id
+        from book
+        where NUMBER=#{number} and APPID=#{appId}
+    </select>
+
+    <select id="findImageAndDescription" parameterType="map" resultType="map">
+        select b.image,b.description,p.cip as cip,p.isbn as isbn,p.author as author,p.pressName as pressName,p.pressLocation as pressLocation,p.pressTime as pressTime
+        from book as b,prefix as p
+        where b.number=#{number} and b.appId=#{appId} and b.prefixId=p.id
+    </select>
+
+    <select id="getBookById" parameterType="java.lang.Long" resultMap="bookResultMap">
+        select
+        <include refid="book_fields"/>
+        from book
+        where ID=#{bookId}
+    </select>
+
+    <select id="search" parameterType="map" resultType="map">
+        select book.`name`,book.number,prefix.author,prefix.pressLocation,prefix.pressTime,book.rentNumber
+        from book left join prefix on book.prefixId=prefix.id
+        where
+        <if test="typeVal =='name'">
+         book.`name` like CONCAT(CONCAT('%', #{searchContent}),'%')
+        </if>
+        <if test="typeVal =='author'">
+            prefix.author like CONCAT(CONCAT('%', #{searchContent}),'%')
+        </if>
+        <if test="typeVal =='number'">
+            book.number like CONCAT(CONCAT('%', #{searchContent}),'%')
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>bookManageSystem</artifactId>
+        <groupId>bookManageSystem</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>bookManageSystem-fundamental</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>bookManageSystem-fundamental-security</module>
+        <module>bookManageSystem-fundamental-config</module>
+        <module>bookManageSystem-fundamental-datasource</module>
+        <module>bookManageSystem-fundamental-exception</module>
+        <module>bookManageSystem-fundamental-logger</module>
+        <module>bookManageSystem-fundamental-orm</module>
+        <module>bookManageSystem-fundamental-util</module>
+    </modules>
+
+
+</project>

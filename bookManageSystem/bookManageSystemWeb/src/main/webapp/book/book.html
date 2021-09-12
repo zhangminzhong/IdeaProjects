@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+<link href="lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+<script src="lib/json2.js" type="text/javascript"></script>
+<script src="lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
+<script src="lib/ligerUI/js/plugins/ligerTextBox.js" type="text/javascript"></script>
+<script src="lib/ligerUI/js/plugins/ligerCheckBox.js" type="text/javascript"></script>
+<script src="lib/ligerUI/js/plugins/ligerComboBox.js" type="text/javascript"></script>
+<script src="lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+<script src="lib/ligerUI/js/plugins/ligerDateEditor.js" type="text/javascript"></script>
+<script src="lib/ligerUI/js/plugins/ligerSpinner.js" type="text/javascript"></script>
+<script src="lib/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function(){
+//            $.get($.URL.contract.getNumber,null,null,"json");
+        $.post($.URL.book.list,null,listCallback,"json");
+        $.post($.URL.bookType.list,bookTypeListCallback,"json");
+        $.post($.URL.prefix.list,prefixListCallback,"json");
+        $("#submitBtn").click(function(){
+            var data = {};
+            data.name = $("#name").val();
+            data.number = $("#number").val();
+            data.rentNumber = $("#rentNumber").val();
+            data.bookTypeId = $("#bookType").ligerComboBox().getValue();
+            data.prefixId = $("#prefix").ligerComboBox().getValue();
+//                data.pressLocation = $("#pressLocation").val();
+//                data.pressTime = $("#pressTime").val();
+            var jsonString  = $.toJSON(data);
+            $.post($.URL.book.add,{"jsonString": jsonString},addCallBack,"json") ;
+        });
+    });
+
+
+    var gridData = {};
+    function listCallback(data){
+        if(data.code==200){
+            gridData.Rows = data.data;
+            gridData.Total = data.data.length;
+            f_initGrid();
+        }
+    }
+
+    var bookTypeData = [];
+    function bookTypeListCallback(data){
+        if (data.code == 200) {
+            $.each(data.data, function (index, content) {
+                var j = {};
+                j.text = content.name;
+                j.value = content.id;
+                bookTypeData.push(j);
+            });
+            $("#bookType").ligerComboBox({isShowCheckBox:true,emptyText:null,    /*实现下拉表*/
+                data:bookTypeData,
+                width:200,
+                valueField:'value',
+                textField:'text',
+                valueFieldID:'bookTypeSelect'   /*下拉表Id是Device*/
+            });
+        }
+    }
+
+    var prefixData = [];
+    function prefixListCallback(data){
+        if (data.code == 200) {
+            $.each(data.data, function (index, content) {
+                var j = {};
+                j.text = content.isbn;
+                j.value = content.id;
+                prefixData.push(j);
+            });
+            $("#prefix").ligerComboBox({isShowCheckBox:true,emptyText:null,    /*实现下拉表*/
+                data:prefixData,
+                width:200,
+                valueField:'value',
+                textField:'text',
+                valueFieldID:'prefixSelect'   /*下拉表Id是Device*/
+            });
+        }
+    }
+    var manager, g;
+    function f_initGrid()
+    {
+        g = manager = $("#maingrid").ligerGrid({
+            columns: [
+                { display: '主键', name: 'id', width: '10%', type: 'int', frozen: true},
+                { display: '名称',name: 'name',width: '15%',editor:{type:'text'}} ,
+                { display: '编号',name: 'number',width: '15%',editor:{type:'text'}},
+                { display: '前缀信息', name: 'prefixId',width: '15%',type:'int',editor: { type: 'select', emptyText: null,
+                    data:prefixData, valueField: 'value', textField: 'text'},
+                    render: function (item) {
+                        return item.isbn;
+                    }},
+                { display: '类型', name: 'bookTypeId',width: '15%',type:'int',editor: { type: 'select', emptyText: null,
+                    data:bookTypeData, valueField: 'value', textField: 'text'
+                },
+                    render: function (item) {
+                        return item.bookType;
+                    }},
+                { display: '数量', name: 'rentNumber',width: '15%',editor:{type:'text'}},
+//                    { display: 'pressLocation', name: 'pressLocation',width: 100,editor:{type:'text'}},
+//                    { display: 'pressTime',name: 'pressTime',width: 100,editor:{type:'date'}},
+//                    { display: '描述',name: 'description',type:'string',editor: { type: 'text'}
+//                    },
+                { display: '操作', isSort: false, width: '15%',render: function (rowdata, rowindex, value)
+                {
+                    var h = "";
+                    if (!rowdata._editing)
+                    {
+                        h += "<a href='javascript:beginEdit(" + rowindex + ")'>修改</a> ";
+                        h += "<a href='javascript:deleteRow(" + rowindex + ")'>删除</a> ";
+                    }
+                    else
+                    {
+                        h += "<a href='javascript:endEdit(" + rowindex + ")'>提交</a> ";
+                        h += "<a href='javascript:cancelEdit(" + rowindex + ")'>取消</a> ";
+                    }
+                    return h;
+                }
+                }
+            ],
+            onSelectRow: function (rowdata, rowindex)
+            {
+                $("#txtrowindex").val(rowindex);
+            },
+            enabledEdit: true,clickToEdit:false, isScroll: false,
+            data: gridData,
+            width: '100%'
+        });
+    }
+    function beginEdit(rowid) {
+        manager.beginEdit(rowid);
+    }
+    function cancelEdit(rowid) {
+        manager.cancelEdit(rowid);
+    }
+    function endEdit(rowid)
+    {
+        manager.endEdit(rowid);
+        var row = manager.getRow(rowid);
+        var jsonString  = $.toJSON(row);
+        $.post($.URL.book.update,{"jsonString":jsonString},updateCallback,"json");
+        function updateCallback(data){
+            if(data.code==200){
+                $.post($.URL.book.list,null,listCallback,"json");
+                $.ligerDialog.success(data.message);
+            }
+            else{
+                $.post($.URL.book.list,null,listCallback,"json");
+                // $("#mainContainer").load("InspectTable/inspectTableList.html");
+
+                $.ligerDialog.warn(data.message);
+            }
+        }
+    }
+    function deleteRow(rowid)
+    {
+        if (confirm('确定删除?'))
+        {
+            var row = manager.getRow(rowid);
+            var jsonString  = $.toJSON(row);
+            $.post($.URL.book.delete,{"jsonString":jsonString},deleteCallback,"json");
+            manager.deleteRow(rowid);
+        }
+    }
+
+    function deleteCallback(data){
+        if(data.code==200){
+            $.ligerDialog.success("成功删除！");
+            $.post($.URL.book.list,null,listCallback,"json");
+        }else{
+            $.ligerDialog.success("删除失败！");
+        }
+    }
+
+    var newrowid = 100;
+    function addNewRow()
+    {
+        manager.addEditRow();
+    }
+
+    function f_add() {
+        document.getElementById('form1').reset();
+        c_show();
+        $.ligerDialog.open({ target: $("#addBook"),width:500,title:'添加书'});
+    }
+
+    function c_show(){
+        $('#addBook').css('display','block');
+    }
+
+
+    function addCallBack(data){
+        if(data.code==200){
+            $.ligerDialog.success(data.message);
+            document.getElementById('form1').reset();
+            $.post($.URL.book.list,null,listCallback,"json");
+        }
+        else{
+            $.ligerDialog.warn(data.message);
+        }
+    }
+    //            $("#returnBtn").click(function(){
+    //                $("#mainContainer").load("contract/contract.html");
+    //            });
+    //        $("#returnBtn").click(function (item, dialog) { dialog.close(); });
+
+</script>
+<style type="text/css">
+    .l-table-edit {}
+    .l-table-edit-td{margin-left:30px; margin-top:10px;padding:4px;height: 20px}
+    .l-table-edit-input{ padding:4px;width:300px}
+    .l-button-submit,.l-button-reset{width:80px; float:left; margin-left:10px; padding-bottom:2px;}
+    .l-dialog-tc{background:#E0EDFF; }
+</style>
+</head>
+<body  style="padding:10px">
+
+<div><input type="button" value="添加" id="addSubmitBtn" onclick="f_add()" class="l-button l-button-submit" /></div>
+<br/><br/>
+<div style="display:none;">
+    <!-- g data total ttt -->
+</div>
+<div id="maingrid" style="margin-top:5px"></div>
+
+<div id="addBook" style=" margin:3px; display:none;">
+    <form name="form1" method="post" action="" id="form1" style="margin-left: 15px">
+
+        <table cellpadding="0" cellspacing="0" class="l-table-edit" >
+            <tr>
+                <td align="right" class="l-table-edit-td">名称:</td>
+                <td align="left" class="l-table-edit-td"><input name="name" type="text" id="name" ></td>
+                <td align="left"></td>
+            </tr>
+
+            <tr>
+                <td align="right" class="l-table-edit-td">编号:</td>
+                <td align="left" class="l-table-edit-td"><input name="number" type="text" id="number" ></td>
+                <td align="left"></td>
+            </tr>
+
+            <tr>
+                <td align="right" class="l-table-edit-td">数量:</td>
+                <td align="left" class="l-table-edit-td"><input name="rentNumber" type="text" id="rentNumber" ></td>
+                <td align="left"></td>
+            </tr>
+
+            <tr>
+                <td align="right" class="l-table-edit-td">类型:</td>
+                <td align="left" class="l-table-edit-td"><input name="bookType" type="text" id="bookType" ></td>
+                <td align="left"></td>
+            </tr>
+
+            <tr>
+                <td align="right" class="l-table-edit-td">前缀信息:</td>
+                <td align="left" class="l-table-edit-td"><input name="prefix" type="text" id="prefix" ></td>
+                <td align="left"></td>
+            </tr>
+
+        </table>
+        <br />
+        <input type="button" value="提交" id="submitBtn" class="l-button l-button-submit" />
+        <!--<input type="button" value="返回" id="returnBtn" class="l-button l-button-reset" />-->
+    </form>
+</div>
+</body>
+</html>

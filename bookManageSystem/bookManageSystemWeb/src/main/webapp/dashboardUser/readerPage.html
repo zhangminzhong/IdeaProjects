@@ -1,0 +1,35 @@
+<style type="text/css">
+    .table-a table{border:1px solid #a1deff;}
+</style>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.post($.URL.reader.getReaderByUserId,null,readerInfoCallback,"json");
+    });
+
+    function readerInfoCallback(data) {
+        $("#curReaderName").html(data.data.name);
+        $("#curReaderSex").html(data.data.sex);
+        $("#curReaderNumber").html(data.data.number);
+        $("#appId").html(data.data.appName);
+    }
+</script>
+<div class="table-a" style="height: 100%;">
+    <table style="height: 100%;width: 100%;">
+        <tr style="height: 25%;text-align: center;">
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">读者姓名</td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="curReaderName"></div></td>
+        </tr>
+        <tr style="height: 25%;text-align: center;">
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">读者性别</td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="curReaderSex"></div></td>
+        </tr>
+        <tr style="height: 25%;text-align: center;">
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">读者证号</td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="curReaderNumber"></div></td>
+        </tr>
+        <tr style="height: 25%;text-align: center;">
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle">读者单位</td>
+            <td style="border: 1px solid #a1deff;text-align: center;vertical-align: middle"><div id="appId"></div></td>
+        </tr>
+    </table>
+</div>

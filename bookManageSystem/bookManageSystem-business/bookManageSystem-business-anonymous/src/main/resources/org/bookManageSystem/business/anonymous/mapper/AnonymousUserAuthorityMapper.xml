@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bookManageSystem.business.anonymous.mapper.AnonymousUserAuthorityMapper">
+    <sql id="user_authority_fields">
+		ID,USERID,AUTHORITYID,USERNAME,AUTHORITYNAME
+	</sql>
+
+    <resultMap id="userResultMap" type="UserAuthority">
+        <id property="id" column="ID" />
+        <result property="userId" column="USERID" />
+        <result property="authorityId" column="AUTHORITYID" />
+        <result property="userName" column="USERNAME"/>
+        <result property="authorityName" column="AUTHORITYNAME"/>
+    </resultMap>
+
+    <insert id="add" parameterType="UserAuthority"  keyProperty="id"
+            useGeneratedKeys="true">
+        INSERT INTO
+        user_authority(
+        <include refid="user_authority_fields" />
+        )
+        VALUES (#{id}, #{userId}, #{authorityId},#{userName},#{authorityName});
+        <selectKey resultType="long" keyProperty="id">
+            select
+            LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+</mapper>

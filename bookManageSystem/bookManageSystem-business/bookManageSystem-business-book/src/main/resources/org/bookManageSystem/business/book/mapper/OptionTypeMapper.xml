@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bookManageSystem.business.book.mapper.OptionTypeMapper">
+    <sql id="optionType_fields">
+          ID,NAME,DESCRIPTION,APPID
+    </sql>
+    <resultMap id="optionTypeResultMap" type="OptionType">
+        <id property="id" column="ID" />
+        <result property="name" column="NAME"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="appId" column="APPID"/>
+    </resultMap>
+
+    <insert id="add" parameterType="OptionType"  keyProperty="id"
+            useGeneratedKeys="true">
+        INSERT INTO
+        optiontype(
+        <include refid="optionType_fields" />
+        )
+        VALUES (#{id},#{name},#{description},#{appId});
+        <selectKey resultType="long" keyProperty="id">
+            select
+            LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="OptionType">
+        update optiontype
+        <set>
+            <if test="name!=null"> NAME=#{name},</if>
+            <if test="description!=null"> DESCRIPTION=#{description},</if>
+            <if test="appId!=null">APPID=#{appId},</if>
+        </set>
+        where ID=#{id};
+    </update>
+
+    <delete id="delete" parameterType="OptionType">
+        DELETE FROM optiontype
+        <where>
+            <if test="description != null">DESCRIPTION=#{description}</if>
+            <if test="name != null">and NAME=#{name}</if>
+        </where>
+    </delete>
+
+
+    <select id="getOptionTypeById" parameterType="map" resultMap="optionTypeResultMap">
+        SELECT
+        <include refid="optionType_fields" />
+        FROM optiontype WHERE ID=#{id} AND APPID=#{appId}
+    </select>
+
+    <delete id="deleteById" parameterType="map">
+        DELETE FROM optiontype
+        WHERE ID=#{id} AND APPID=#{appId}
+    </delete>
+
+    <select id="getIdByName"  parameterType="map" resultType="java.lang.Long">
+        select   id
+        from   optiontype
+        where name=#{name}
+        and  appId=#{appId}
+    </select>
+
+    <select id="findByCondition" parameterType="OptionType" resultMap="optionTypeResultMap">
+        select
+        <include refid="optionType_fields"/>
+        from optiontype
+        <where>
+            <if test="name!=null">NAME=#{name}</if>
+            <if test="description!=null">and  DESCRIPTION=#{description}</if>
+            <if test="appId!=null">and APPID=#{appId}</if>
+        </where>
+    </select>
+
+    <select id="getNameById" parameterType="java.lang.Long" resultType="java.lang.String">
+        select name
+        from optiontype
+        where ID=#{id}
+    </select>
+
+    <select id="getListByAppId" parameterType="java.lang.Long" resultMap="optionTypeResultMap">
+        select
+        <include refid="optionType_fields"/>
+        from optiontype
+        where APPID=#{appId}
+    </select>
+
+</mapper>

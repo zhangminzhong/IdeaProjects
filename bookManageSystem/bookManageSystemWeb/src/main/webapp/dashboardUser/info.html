@@ -1,0 +1,54 @@
+<script type="text/javascript">
+    $(function ()
+    {
+        $.get($.URL.user.currentUserInfo,null,userInfoCallback,"json");
+    });
+
+    function userInfoCallback(data) {
+        if(data.code == 200) {
+            $("#userInfoDiv").html(data.data.name + "的借阅情况");
+            $("#userCommendNameDiv").html(data.data.name + "可能还会喜欢");
+            $.post($.URL.bookAnalyse.getReaderBookList,null,bookListCallback,"json");
+            $.post($.URL.bookAnalyse.getReaderCommendsList,null,bookCommendsCallback,"json");
+        }
+    }
+
+    function bookListCallback(data) {
+        var gridData = {};
+        gridData.Rows = data.data;
+        gridData.Total = data.data.length;
+        $("#rentBookDiv").ligerGrid({
+            columns:[
+                { display: '序号', name: 'number', frozen: true,width:'auto' },
+                { display:'书名',name:'name',width:'auto'}
+            ],
+            enabledEdit: true,clickToEdit:false, isScroll: false,usePager:false,
+            data:gridData,
+            width:'98%'
+        });
+    }
+
+    function bookCommendsCallback(data) {
+        var gridData = {};
+        gridData.Rows = data.data;
+        gridData.Total = data.data.length;
+        $("#rentCommendListDiv").ligerGrid({
+            columns:[
+                { display: '序号', name: 'number', frozen: true,width:'auto' },
+                { display:'书名',name:'name',width:'auto'}
+            ],
+            enabledEdit: true,clickToEdit:false, isScroll: false,usePager:false,
+            data:gridData,
+            width:'98%'
+        });
+    }
+</script>
+
+<div id="rentInfoDiv" style="height: 200px;">
+    <div id="userInfoDiv" style="cursor: pointer;background-color: #9791ff;"></div>
+    <div id="rentBookDiv" style="margin-top: 5px;background-color: #d3e4ff"></div>
+</div>
+<div id="rentCommendDiv" style="height: 200px;margin-top: 5px;">
+    <div id="userCommendNameDiv" style="cursor: pointer;background-color: #9791ff"></div>
+    <div id="rentCommendListDiv" style="margin-top: 5px;background-color: #d3e4ff"></div>
+</div>

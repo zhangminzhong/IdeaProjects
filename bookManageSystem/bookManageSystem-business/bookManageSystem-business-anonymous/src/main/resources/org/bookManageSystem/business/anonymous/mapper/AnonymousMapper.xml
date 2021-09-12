@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bookManageSystem.business.anonymous.mapper.AnonymousMapper">
+
+    <select id="getCommendBook" parameterType="map" resultType="map">
+        SELECT *
+        FROM book
+        WHERE appId=#{appId} and bookTypeId=#{bookTypeId}
+        ORDER BY `count` DESC
+        LIMIT 5
+    </select>
+
+    <select id="getBestBookTypes" parameterType="java.lang.Long" resultType="map">
+        SELECT b.bookTypeId as bookTypeId,c.name as bookTypeName
+        FROM book as b,bookType as c
+        WHERE b.appId=#{appId} and b.bookTypeId=c.id
+        GROUP BY b.bookTypeId
+        ORDER BY b.count DESC
+        LIMIT 5
+    </select>
+</mapper>

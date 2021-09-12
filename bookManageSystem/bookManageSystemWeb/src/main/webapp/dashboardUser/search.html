@@ -1,0 +1,86 @@
+<style type="text/css">
+    #searchTitle {
+        background-color: #d3e4ff;
+        border-bottom: 1px solid #000000;
+    }
+    #searchComboDiv {
+        /*background-color:#CCFF66;*/
+        position:absolute;
+        width:60%;
+        height:15%;
+        top:20%;
+        left:2%;
+    }
+    #searchBtnDiv {
+        background-color: #d3e4ff;
+        position:absolute;
+        width:30%;
+        height:10%;
+        top:20%;
+        right:5px;
+    }
+    #searchCombo {
+        width:95%;
+    }
+    #searchBtn {
+        width:95%;
+    }
+    #searchSelDiv {
+        background-color: #d3e4ff;
+        position:absolute;
+        top:30%;
+        left:0;
+        width:100%;
+        height:auto;
+        right: 0;
+    }
+    #searchLink {
+        background-color: #61ebff;
+        position: absolute;
+        top: 70%;
+        width: 100%;
+        height: 30%;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#searchCombo").ligerTextBox();
+        $("#searchBtn").ligerButton();
+    });
+    $("#searchBtn").click(
+            function() {
+                var typeVal=$("input:radio[name='selRadio'][checked]").val();
+                totalType = typeVal;
+                totalContent = $("#searchCombo").val();
+
+                $("#center").load("dashboardUser/searchList.html");
+            }
+    );
+</script>
+<div id="searchTitle">
+    <img src="images/searchBox.jpg">
+</div>
+<div id="searchComboDiv">
+    <input id="searchCombo" />
+</div>
+<div id="searchBtnDiv">
+    <input id="searchBtn" type="button" value="搜索" style="font: '黑体';padding-left: 5px !important;"/>
+</div>
+
+<div id="searchSelDiv">
+    <input id="searchSelRadio1" type="radio" name="selRadio" value="name" style="margin-left:10%; margin-top:20px;" checked="checked"/><b>全部</b>
+    <input id="searchSelRadio2" type="radio" name="selRadio" value="author" style="margin-left:15%;"/><b>作者</b><br/>
+    <input id="searchSelRadio3" type="radio" name="selRadio" value="name" style="margin-left:10%; margin-top: 8%"/><b>书名</b>
+    <input id="searchSelRadio4" type="radio" name="selRadio" value="number" style="margin-left:15%;"/><b>编号</b><br/>
+</div>
+<div id="searchLink">
+    <a href="http://ieeexplore.ieee.org/" style="margin-top: 5%;" target="_blank">IEEE文献库</a>
+    <a href="http://epub.cnki.net/" target="_blank">|CNKI中国知网</a>
+    <a href="http://www.wanfangdata.com.cn/" target="_blank">|万方文库</a>
+    <a href="http://acm.lib.tsinghua.edu.cn" style="margin-top: 10%" target="_blank">|ACM-美国计算机协会</a>
+    <a href="http://book.chaoxing.com/" target="_blank">|超新电子书</a>
+    <a href="http://www.webofknowledge.com" target="_blank">|SCI数据库</a>
+    <a href="http://lib.cqvip.com/" target="_blank">|维普期刊数据</a>
+</div>
+

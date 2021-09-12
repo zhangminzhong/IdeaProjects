@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<parser xmlns="http://www.whut.mc.com/parser">
+    <resolver name="lanyan" regx="^6801.*16"
+              class="org.whut.mc.server.core.util.LanyanOpenDevice"/>
+    <resolver name="heartbeat" regx="^6800.*16"
+              class="org.whut.mc.server.core.util.HeartBeat"/>
+</parser>

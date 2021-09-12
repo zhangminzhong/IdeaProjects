@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bookManageSystem.business.book.mapper.BookTypeMapper">
+    <sql id="bookType_fields">
+         ID,NAME,DESCRIPTION,APPID
+     </sql>
+    <resultMap id="bookTypeResultMap" type="bookType">
+        <id property="id" column="ID"/>
+        <result property="name" column="NAME"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="appId" column="APPID"/>
+    </resultMap>
+
+    <insert id="add" parameterType="bookType"  keyProperty="id"
+            useGeneratedKeys="true">
+        INSERT INTO
+        booktype(
+        <include refid="bookType_fields" />
+        )
+        VALUES (#{id}, #{name},#{description},#{appId});
+        <selectKey resultType="long" keyProperty="id">
+            select
+            LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="bookType">
+        UPDATE booktype
+        <set>
+            <if test="name!=null">NAME=#{name},</if>
+            <if test="description!=null">DESCRIPTION=#{description}</if>
+        </set>
+        WHERE ID=#{id}
+    </update>
+
+    <delete id="delete" parameterType="bookType">
+        DELETE FROM booktype
+        WHERE ID=#{id}
+    </delete>
+
+    <select id="getListByAppId" parameterType="java.lang.Long" resultMap="bookTypeResultMap">
+        select
+        <include refid="bookType_fields"/>
+        from booktype
+        where APPID=#{appId}
+    </select>
+
+    <select id="getIdByName" parameterType="map" resultType="java.lang.Long">
+        select id
+        from booktype
+        where NAME=#{name} and APPID=#{appId}
+    </select>
+</mapper>
