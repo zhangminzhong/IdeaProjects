@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.business.mapper.StudentMapper">
+
+    <select id="getStudents" resultType="Student">
+        select * from student
+    </select>
+    <update id="updateByStudent" parameterType="Student">
+        update student set studentName=#{studentName},telephone=#{telephone},address=#{address}
+        where studentID = #{studentID}
+    </update>
+    <delete id="deleteStudent" parameterType="java.lang.String">
+        delete from student where studentID = #{studentID}
+    </delete>
+    <insert id="addStudent" parameterType="Student">
+        insert into student
+        set studentID=#{studentID},studentName=#{studentName},nation=#{nation},
+        sex=#{sex},birthday=#{birthday},classID=#{classID},telephone=#{telephone},
+        creditHour=#{creditHour},entryDate=#{entryDate},address=#{address},remark=#{remark}
+    </insert>
+    <select id="getTotalCount" resultType="int">
+        select count(*) from student
+    </select>
+</mapper>

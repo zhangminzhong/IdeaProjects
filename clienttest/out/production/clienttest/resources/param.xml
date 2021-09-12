@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <master>
+        <masterIp>192.168.64.1</masterIp>
+        <clientPort>60001</clientPort>
+        <slavePort>60002</slavePort>
+    </master>
+</root>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <title>登录</title>
+</head>
+<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#submitBtn").click(function(){
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var data = {
+                username:username,
+                password:password
+            };
+           //$.post("api/user/postUser",data,loginCallBack,"json");
+            $.get("api/user/getUser",null,loginCallBack,"json");
+        });
+    });
+    function loginCallBack(data){
+        alert(data);
+    }
+</script>
+<body>
+     <div>
+         <span>用户名</span><input id="username" type="text"><br>
+         <span>密&nbsp;&nbsp;码</span><input id="password" type="password"><br>
+         <input id="submitBtn" type="button" value="登录">
+     </div>
+</body>
+</html>
