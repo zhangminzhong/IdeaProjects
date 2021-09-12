@@ -1,6 +1,8 @@
 package com.study.config;
 
+import com.alibaba.nacos.api.config.annotation.NacosValue;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -14,12 +16,15 @@ import org.springframework.stereotype.Component;
  */
 
 @Data
-@Component
-@ConfigurationProperties(prefix = "user")
+@ToString
+@Configuration
+@RefreshScope
+//@Component
+//@ConfigurationProperties(prefix = "user")
 public class UserConfig {
-//    @Value("${username}")
+    @Value("${user.userName}")
     public String userName;
 
-//    @Value("${password}")
+    @Value("${user.password}")
     public String password;
 }
