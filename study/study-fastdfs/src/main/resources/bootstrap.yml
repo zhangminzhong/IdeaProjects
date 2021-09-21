@@ -1,6 +1,6 @@
 applicationName: study-fastdfs
 server:
-  port: 8081
+  port: 8080
   servlet:
     context-path: /${applicationName}
 spring:
