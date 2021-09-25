@@ -9,6 +9,7 @@
     <modules>
         <module>study-poi</module>
         <module>study-fastdfs</module>
+        <module>study-websocket</module>
     </modules>
     <name>study</name>
     <description>study</description>
