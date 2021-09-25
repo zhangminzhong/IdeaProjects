@@ -26,7 +26,7 @@ import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class StudyApplicationTests {
+public class ApplicationTests {
 
     @Autowired
     ApplicationContext applicationContext;

@@ -1,4 +1,4 @@
-package com.study;
+package com.example.study;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2021/9/11 19:10
  */
 @SpringBootApplication
-public class StudyFastdfsApplication {
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(StudyFastdfsApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }

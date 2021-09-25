@@ -1,8 +1,8 @@
-package com.study.controller;
+package com.example.study.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.study.bean.User;
-import com.study.config.UserConfig;
+import com.example.study.config.UserConfig;
+import com.example.study.bean.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

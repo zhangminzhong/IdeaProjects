@@ -1,4 +1,4 @@
-package com.study;
+package com.example.study;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +14,7 @@ import java.io.*;
  */
 //@RunWith(SpringRunner.class)
 //@SpringBootTest
-public class StudyFastdfsApplicationTest {
+public class ApplicationTest {
 
     public void setUp() throws Exception {
     }

@@ -1,4 +1,4 @@
-package com.study.config;
+package com.example.study.config;
 
 import com.alibaba.nacos.api.config.annotation.NacosValue;
 import lombok.Data;
